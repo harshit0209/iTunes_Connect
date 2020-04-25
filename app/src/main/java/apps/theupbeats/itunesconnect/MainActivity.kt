@@ -5,21 +5,28 @@ import android.os.Bundle
 import android.util.Log
 import android.util.Log.d
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
-
+    val animals: ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        addAnimals()
+
+
+
+        recyclerview.layoutManager=GridLayoutManager(this,2)
+        recyclerview.adapter=TestAda(this,animals)
+
 
 
         val imgV=findViewById(R.id.imageView) as ImageView
@@ -31,6 +38,39 @@ class MainActivity : AppCompatActivity() {
             temp()
         }
 
+    }fun addAnimals() {
+        animals.add("dog")
+        animals.add("cat")
+        animals.add("owl")
+        animals.add("cheetah")
+        animals.add("raccoon")
+        animals.add("bird")
+        animals.add("snake")
+        animals.add("lizard")
+        animals.add("hamster")
+        animals.add("bear")
+        animals.add("lion")
+        animals.add("tiger")
+        animals.add("horse")
+        animals.add("frog")
+        animals.add("fish")
+        animals.add("shark")
+        animals.add("turtle")
+        animals.add("elephant")
+        animals.add("cow")
+        animals.add("beaver")
+        animals.add("bison")
+        animals.add("porcupine")
+        animals.add("rat")
+        animals.add("mouse")
+        animals.add("goose")
+        animals.add("deer")
+        animals.add("fox")
+        animals.add("moose")
+        animals.add("buffalo")
+        animals.add("monkey")
+        animals.add("penguin")
+        animals.add("parrot")
     }
     fun showSearchDialog(v:View)
     {
