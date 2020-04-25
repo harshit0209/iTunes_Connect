@@ -52,8 +52,11 @@ class MainActivity : AppCompatActivity() {
             .baseUrl("https://itunes.apple.com")
            .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+
         val api=retrofit.create(Api::class.java)
-        api.getArtist().enqueue(object: Callback<DataModel>{
+
+        api.getArtist("/search?term=jack+johnson").enqueue(object: Callback<DataModel>{
             override fun onFailure(call: Call<DataModel>, t: Throwable) {
 
                 d("tagkotout","got error $t")

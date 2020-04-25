@@ -2,8 +2,9 @@ package apps.theupbeats.itunesconnect
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Url
 
 interface Api {
-    @GET("/search?term=jack+johnson")
-    fun getArtist(): Call<DataModel>
+    @GET
+    fun getArtist(@Url url:String): Call<DataModel>
 }
