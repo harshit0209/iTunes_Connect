@@ -1,6 +1,6 @@
 package apps.theupbeats.itunesconnect
 
-data class Result(
+     class Result(
     val artistId: Int,
     val artistName: String,
     val artistViewUrl: String,

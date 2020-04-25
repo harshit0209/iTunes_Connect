@@ -1,5 +1,6 @@
 package apps.theupbeats.itunesconnect
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +16,7 @@ import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
+    var dia:AlertDialog?=null
     val animals: ArrayList<String> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +26,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        recyclerview.layoutManager=GridLayoutManager(this,2)
-        recyclerview.adapter=TestAda(this,animals)
 
 
 
@@ -34,8 +34,8 @@ class MainActivity : AppCompatActivity() {
             into(imgV)
 
         floatingActionButton.setOnClickListener{
-         //   showSearchDialog(it)
-            temp()
+          showSearchDialog(it)
+
         }
 
     }fun addAnimals() {
@@ -81,19 +81,32 @@ class MainActivity : AppCompatActivity() {
 
         val btn=inflate_view.findViewById(R.id.searchBtn) as Button
         btn.setOnClickListener{
-            Toast.makeText(this@MainActivity,""+artist_EditText.text,Toast.LENGTH_SHORT).show()}
+
+            var url:String=artist_EditText.text.toString()
+            if(url.contains(" "))
+                url=url.replace(" ","+")
+            temp(url)
+
+
+            Toast.makeText(this@MainActivity,"Searching.",Toast.LENGTH_SHORT).show()}
         val dialog = AlertDialog.Builder(this)
         dialog.setTitle("Search Track on iTunes")
         dialog.setView(inflate_view)
         dialog.setCancelable(true)
 
 
+
         val dia=dialog.create()
         dia.window.attributes.windowAnimations=R.anim.zoom_in
         dia.show()
+        this.dia=dia
+
+
     }
-    fun temp()//retrofit here
+    fun temp(url:String)//retrofit here
     {
+        dia?.dismiss()
+
         val retrofit = Retrofit.Builder()
 
             .baseUrl("https://itunes.apple.com")
@@ -103,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
         val api=retrofit.create(Api::class.java)
 
-        api.getArtist("/search?term=jack+johnson").enqueue(object: Callback<DataModel>{
+        api.getArtist("/search?term=$url").enqueue(object: Callback<DataModel>{
             override fun onFailure(call: Call<DataModel>, t: Throwable) {
 
                 d("tagkotout","got error $t")
@@ -122,7 +135,9 @@ class MainActivity : AppCompatActivity() {
     }
     fun show(songs: DataModel)
     {
-         val list=songs.results
+         val list=songs.results as ArrayList
+        recyclerview.layoutManager=GridLayoutManager(this,2)
+        recyclerview.adapter=TestAda(this,list)
 
         list.forEach{d("skde",""+it)}
 
